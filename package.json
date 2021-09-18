@@ -1,0 +1,26 @@
+{
+  "name": "test-fuota-server",
+  "version": "1.0.0",
+  "description": "## Description A prototyping LoRaWAN® multicast and firmware update over the air test sever compatible with the [The Things Stack](https://www.thethingsindustries.com/docs/).",
+  "main": "server.js",
+  "dependencies": {
+    "gps-time": "^1.0.8",
+    "mqtt": "^4.2.8",
+    "yaml": "^1.10.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elsalahy/test-fuota-server.git"
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": "https://github.com/elsalahy/test-fuota-server/issues"
+  },
+  "homepage": "https://github.com/elsalahy/test-fuota-server#readme"
+}

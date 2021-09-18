@@ -1,0 +1,38 @@
+## MQTT config, see https://www.thethingsindustries.com/docs/integrations/mqtt/
+mqtt:
+  host: au1.cloud.thethings.network
+  # 1883 or 8883 for TLS
+  port: 1883
+  # mqtts for TLS
+  protocol: mqtt
+
+  # or APP_ID
+  username: test@ttn
+  # or API_KEY
+  password: ABC.DEF.GHI
+
+  # Uncomment if you are using TLS
+  #key: '/key.pem'
+  # Uncomment if you are using TLS
+  #cert: '/cert.pem'
+
+
+# Device IDs and EUIs config
+# Tenant_ID On Things Stack Cloud
+TENANT_ID : ttn
+GATEWAY_ID: rak7246
+
+# Multicast group details config, see https://www.thethingsindustries.com/docs/devices/multicast/
+MULTICAST_APP_ID: test
+MULTICAST_DEV_ID: fota-test
+
+# Devices EUIs config with no spaces, Example: `FA23A01E61AE4F65`
+# These are the Devices that will open a class C session and receive the multicast fragments
+DEVICE_LIST:
+  - FA23A01E61AE4F65
+  - FA23A01E61AE4F66
+
+# Script config
+CLASS_C_WAIT_S: 40;
+# Set to 1 to get more debug info
+extra_info: 0
