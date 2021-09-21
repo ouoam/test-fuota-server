@@ -33,6 +33,6 @@ DEVICE_LIST:
   - FA23A01E61AE4F66
 
 # Script config
-CLASS_C_WAIT_S: 40;
+CLASS_C_WAIT_S: 40
 # Set to 1 to get more debug info
 extra_info: 0
