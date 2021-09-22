@@ -44,7 +44,7 @@ var extra_info = config.extra_info;
 const client = mqtt.connect(options);
 const PACKET_FILE = process.argv[2];
 const PACKET_FILE_CRC32_CHECKSUM = process.argv[3];
-const DATARATE = process.env.LORA_DR || 5; //@user, please adjust here
+const DATARATE = process.env.LORA_DR || 2; //@user, please adjust here
 if (!PACKET_FILE) throw 'Input error: PACKET_FILE was not provided, please provide a fragmented binary file';
 if (!PACKET_FILE_CRC32_CHECKSUM) throw 'Input error: PACKET_FILE_CRC32_CHECKSUM was not provided, please provide the binary file CRC32 checksum';
 const mcDetails = {
@@ -95,12 +95,16 @@ client.on('message', async function (topic, message) {
             console.log('deviceTime', deviceTime, 'serverTime', serverTime);
 
             let adjust = serverTime - deviceTime | 0;
-            let resp = [ 1, adjust & 0xff, (adjust >> 8) & 0xff, (adjust >> 16) & 0xff, (adjust >> 24) & 0xff, 0b0000 /* tokenAns */ ];
+            let token = body[5];
+            let resp = Buffer.allocUnsafe(6);
+            resp[0] = 1;
+            resp.writeInt32LE(adjust, 1);
+            resp[5] = token & 0x0F;
             let responseMessage = {
                 "downlinks": [{
                     "priority": "NORMAL",
                     "f_port": 202,
-                    "frm_payload": Buffer.from(resp).toString('base64')
+                    "frm_payload": resp.toString('base64')
                 }]
             };
 
@@ -292,7 +296,7 @@ function sendMcClassCSessionReq() {
             0x0, // mcgroupidheader
             startTime & 0xff, (startTime >> 8) & 0xff, (startTime >> 16) & 0xff, (startTime >> 24) & 0xff,
             0x07, // session timeout
-            0xd2, 0xad, 0x84, // dlfreq
+            0x80, 0xDE, 0x8C, // dlfreq
             DATARATE // dr
         ]).toString('base64')
     }]
@@ -360,7 +364,7 @@ async function startSendingClassCPackets() {
 
         console.log('Sent packet', ++counter, mcDetails.application_id+'@'+TENANT_ID,mcDetails.device_id);
 
-        await sleep(1200); // packet on SF12 is 2100 ms. so this should just work
+        await sleep(1600); // packet on SF12 is 2100 ms. so this should just work
     }
 
     console.log('Done sending all packets');
