@@ -4,11 +4,10 @@
   "description": "## Description A prototyping LoRaWAN® multicast and firmware update over the air test sever compatible with the [The Things Stack](https://www.thethingsindustries.com/docs/).",
   "main": "server.js",
   "dependencies": {
-    "gps-time": "^1.0.8",
-    "mqtt": "^4.2.8",
-    "yaml": "^1.10.2"
+    "gps-time": "^1.0.9",
+    "mqtt": "^5.7.0",
+    "yaml": "^2.4.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"

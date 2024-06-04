@@ -20,7 +20,7 @@ if (config.mqtt.key)
 if (config.mqtt.cert)
     config.mqtt.cert = fs.readFileSync(path.join(__dirname, config.mqtt.cert));
 var options = { ...config.mqtt, ...{
-    rejectUnauthorized: false,
+    // rejectUnauthorized: false,
 }};
 
 // Device IDs and EUIs config
