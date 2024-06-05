@@ -62,10 +62,10 @@ client.on('message', async function (topic, message) {
         let body = Buffer.from(m.uplink_message.frm_payload, 'base64');
         if (body[0] === 0x1 /* CLOCK_APP_TIME_REQ */) {
             let deviceTime = body[1] + (body[2] << 8) + (body[3] << 16) + (body[4] << 24);
-            let serverTime = gpsTime.toGPSMS(Date.now()) / 1000 | 0;
-            console.log('deviceTime', deviceTime, 'serverTime', serverTime);
+            let received_at = gpsTime.toGPSMS(new Date(m.uplink_message.settings.time)) / 1000 | 0;
+            console.log('deviceTime', deviceTime, 'received_at', received_at, "token", body[5] & 0x0F);
 
-            let adjust = serverTime - deviceTime | 0;
+            let adjust = received_at - deviceTime | 0;
             let token = body[5];
             let resp = Buffer.allocUnsafe(6);
             resp[0] = 1;
@@ -81,12 +81,7 @@ client.on('message', async function (topic, message) {
 
             msgWaiting = responseMessage;
 
-            console.log('Clock sync for device', m.end_device_ids.dev_eui, adjust, 'seconds');
-
-            if (devices.every(eui => deviceMap[eui].clockSynced)) {
-                console.log('All devices have had their clocks synced, setting up mc group...');
-                setTimeout(sendMcGroupSetup, 1000);
-            }
+            console.log('Clock sync for device', m.end_device_ids.device_id, adjust, 'seconds');
         }
         else {
             console.warn('Could not handle clock sync request', body);
